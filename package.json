@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/Srajoshi/scraperHW/issues"
   },
-  "homepage": "https://github.com/Srajoshi/scraperHW#readme"
+  "homepage": "https://github.com/Srajoshi/scraperHW#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.10",
+    "morgan": "^1.9.1"
+  }
 }
