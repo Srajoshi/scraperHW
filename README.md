@@ -16,17 +16,8 @@ A web app that lets users view and leave comments on the latest news from screen
 
    4. axios
 
-4. In order to deploy your project to Heroku, you must set up an mLab provision. mLab is remote MongoDB database that Heroku supports natively. Follow these steps to get it running:
 
-5. Create a Heroku app in your project directory.
-
-6. Run this command in your Terminal/Bash window:
-
-* `heroku addons:create mongolab`
-
-* This command will add the free mLab provision to your project.
-
-7. When you go to connect your mongo database to mongoose, do so the following way:
+3. Project is deployed on heroku.
 
 ```js
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database

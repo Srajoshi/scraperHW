@@ -31,7 +31,9 @@ app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
+mongoose.connect(MONGODB_URI);
 // connect to database
 // mongoose.Promise = Promise;
 // var dbConnect = process.env.MONGODB_URI || "mongodb://localhost/scraperHW";
