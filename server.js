@@ -31,6 +31,22 @@ app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
+
+// connect to database
+mongoose.Promise = Promise;
+var dbConnect = process.env.MONGODB_URI || "mongodb://localhost/scraperHW";
+if(process.env.MONGODB_URI) {
+    mongoose.connect(process.env.MONGODB_URI)
+} else {
+    mongoose.connect(dbConnect);
+}
+var db = mongoose.connection;
+db.on('error',function(err){
+    console.log('Mongoose Error',err);
+});
+db.once('open', function(){
+    console.log("Mongoose connection is successful");
+});
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/scraperHW", {
   useNewUrlParser: true
@@ -40,6 +56,9 @@ mongoose.connect("mongodb://localhost/scraperHW", {
 app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "../public/home.html"));
 });
+// app.get("/notes", function(req, res) {
+//   res.sendFile(path.join(__dirname, "../public/home.html"));
+// });
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
@@ -236,6 +255,20 @@ app.get("/notes/:id", function (req, res) {
           }
       });
   }
+});
+
+// get all notes
+app.get("/notes", function (req, res) {
+  // Grab every document in the Articles collection
+  db.Note.find({})
+    .then(function (dbNote) {
+      // If we were able to successfully find Articles, send them back to the client
+      res.json(dbNote);
+    })
+    .catch(function (err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
 });
 
 // Start the server
