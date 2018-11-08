@@ -33,20 +33,20 @@ app.use(express.static("public"));
 
 
 // connect to database
-mongoose.Promise = Promise;
-var dbConnect = process.env.MONGODB_URI || "mongodb://localhost/scraperHW";
-if(process.env.MONGODB_URI) {
-    mongoose.connect(process.env.MONGODB_URI)
-} else {
-    mongoose.connect(dbConnect);
-}
-var db = mongoose.connection;
-db.on('error',function(err){
-    console.log('Mongoose Error',err);
-});
-db.once('open', function(){
-    console.log("Mongoose connection is successful");
-});
+// mongoose.Promise = Promise;
+// var dbConnect = process.env.MONGODB_URI || "mongodb://localhost/scraperHW";
+// if(process.env.MONGODB_URI) {
+//     mongoose.connect(process.env.MONGODB_URI)
+// } else {
+//     mongoose.connect(dbConnect);
+// }
+// var db = mongoose.connection;
+// db.on('error',function(err){
+//     console.log('Mongoose Error',err);
+// });
+// db.once('open', function(){
+//     console.log("Mongoose connection is successful");
+// });
 // Connect to the Mongo DB
 mongoose.connect("mongodb://localhost/scraperHW", {
   useNewUrlParser: true
@@ -57,7 +57,7 @@ app.get("/", function(req, res) {
   res.sendFile(path.join(__dirname, "../public/home.html"));
 });
 // app.get("/notes", function(req, res) {
-//   res.sendFile(path.join(__dirname, "../public/home.html"));
+//   res.sendFile(path.join(__dirname, "../public/notes.html"));
 // });
 
 // A GET route for scraping the echoJS website
@@ -267,6 +267,7 @@ app.get("/notes", function (req, res) {
     })
     .catch(function (err) {
       // If an error occurred, send it to the client
+      console.log(dbNote)
       res.json(err);
     });
 });
