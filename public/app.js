@@ -15,46 +15,26 @@ $.getJSON("/articles", function (data) {
     // divCard.attr("style", "height: 200px; width: 95%; margin: 5px; border:2px solid black");
      var divCardHeader = $("<div>").addClass("card-header");
     //  divCardHeader.text(artTitle);
-     divCardHeader.html("<a href='https://screenrant.com" + artLink + "'><h3>" + artTitle + "</h3></a>");
+     divCardHeader.html("<a href='https://screenrant.com" + artLink + "'><h4>" + artTitle + "</h4></a>");
      divCard.append(divCardHeader);
-    //  var h5CardTitle = $("<h5>").addClass("card-title");
-    //  h5CardTitle.text(artTitle)
-    //  divCard.append(h5CardTitle);
      var divCardBody = $("<div>").addClass("card-body");
      divCardBody.attr("style", "overflow:auto");
-     divCardBody.html("<h4>" + artDetail +"</h4>")
+     divCardBody.html("<h5>" + artDetail +"</h5>")
      divCard.append(divCardBody);
      
-    // var divrow = $("<div>").addClass("row");
-    // var divcol1 = $("<div>").addClass("col-6");
-    // var divcol2 = $("<div>").addClass("col-3");
-    // var divcol3 = $("<div>").addClass("col-3 text-right");
-    // var deleteButton = $("<button>").addClass("btn btn-info delete-articleFromDB");
-    // divCard.append(deleteButton);
+    
     var addNoteBtn = $("<button>").addClass("btn btn-info add-note");
-    addNoteBtn.attr("data-id", artId);
+    addNoteBtn.attr("data-id", artId)
+              // .data-toggle("modal")
+              // .data-target("#notes-modal")
     addNoteBtn.text("Add Comment")
     divCard.append(addNoteBtn);
-    // // var imgTag = $("<img>");
-    // // imgTag.attr("style", " height: 200px;");
-    // var addButton = $("<div>").addClass("card-footer");
-    // var aHref = $("<a>");
-    // var strarr = artLink.split(".com");
+
+    // var saveArticleBtn = $("<button>").addClass("btn btn-warning save-article");
+    // saveArticleBtn.attr("data-id", artId);
+    // saveArticleBtn.text("Save Article")
+    // divCard.append(saveArticleBtn);
     
-    // h5CardTitle.text(artTitle);
-    // console.log(h5CardTitle)
-    // aHref.attr("href", artLink);
-    // aHref.text(strarr[0] + "....");
-    // aHref.attr("target", "_blank");
-
-    // // var pTag = $("<p>");
-    // divcol1.text(artDetail);
-    // // ulTag.append(liTag);
-
-    // deleteButton.text("Delete");
-    // deleteButton.attr("id", idInDB);
-
-   
 
     $("#articles").append(divCard);
     // imgTag.attr("src", image);
@@ -65,6 +45,8 @@ $.getJSON("/articles", function (data) {
 
 // Whenever someone clicks add-note button tag
 $(document).on("click", ".add-note", function () {
+  // $('.modal').toggleClass('modal--show');
+  
   // Empty the notes from the note section
   $("#notes").empty();
   // Save the id from the p tag
@@ -119,6 +101,7 @@ $(document).on("click", "#savenote", function () {
       console.log(data);
       // Empty the notes section
       $("#notes").empty();
+      // $(".modalNote").modal("hide");
     });
 
   // Also, remove the values entered in the input and textarea for note entry
