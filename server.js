@@ -2,6 +2,7 @@ var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
+const path = require("path");
 
 //Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
@@ -36,6 +37,9 @@ mongoose.connect("mongodb://localhost/scraperHW", {
 });
 
 // Routes
+app.get("/", function(req, res) {
+  res.sendFile(path.join(__dirname, "../public/home.html"));
+});
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
@@ -48,11 +52,12 @@ app.get("/scrape", function (req, res) {
     // Select each element in the HTML body from which you want information.
     // NOTE: Cheerio selectors function similarly to jQuery's selectors,
     // but be sure to visit the package's npm page to see how it works
+    var results = [];
     $("article.browse-clip").each(function (i, element) {
       //console.log(element)
 
       // An empty array to save the data that we'll scrape
-      var result = [];
+      
 
       var title = $(element).children().find("a.bc-title-link").text();
       // var link = $(element).find("a.bc-img-link").href()
@@ -60,29 +65,35 @@ app.get("/scrape", function (req, res) {
       var detail = $(element).find("p.bc-excerpt").text()
       
       // Save these results in an object that we'll push into the results array we defined earlier
-      result.push({
+      results.push({
         title: title,
         link: link,
         detail: detail,
         // image: image
       });
+      
+    });
+
+    console.log(results);
 
       // Create a new Article using the `result` object built from scraping
-      db.Article.create(result)
+      db.Article.create(results)
         .then(function (dbArticle) {
           // View the added result in the console
           console.log(dbArticle);
+          res.redirect("/");
         })
         .catch(function (err) {
           // If an error occurred, send it to the client
           return res.json(err);
         });
-      // }
-    });
+      
+    
   });
 
   // If we were able to successfully scrape and save an Article, send a message to the client
-  res.send("Scrape Complete");
+  
+  
 });
 // });
 // Route for getting all Articles from the db
@@ -212,7 +223,20 @@ app.delete("/deletenote/:id", function (req, res) {
   });
 });
 
-
+app.get("/notes/:id", function (req, res) {
+  if(req.params.id) {
+      db.Note.find({
+          "_id": req.params.id
+      })
+      .exec(function (error, doc) {
+          if (error) {
+              console.log(error)
+          } else {
+              res.send(doc);
+          }
+      });
+  }
+});
 
 // Start the server
 app.listen(PORT, function () {
