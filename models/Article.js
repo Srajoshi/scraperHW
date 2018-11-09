@@ -14,11 +14,11 @@ var ArticleSchema = new Schema({
   },
   link: {
     type: String,
-    required: true
+    // required: true
   },
   detail: {
     type: String,
-    required: false
+    // required: false
   },
   // saved: {
   //   type: Boolean,

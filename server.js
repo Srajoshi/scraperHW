@@ -31,33 +31,79 @@ app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
-// var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+// connect to database
+// mongoose.Promise = Promise;
 
-mongoose.connect(MONGODB_URI);
-var databaseUri = "mongodb://localhost/scraperHW";
-  
+var dbConnect = process.env.MONGODB_URI || "mongodb://localhost/scraperHW";
 
-if(process.env.MONGODB_URI){
-
-  mongoose.connect(process.env.MONGODB_URI);
-
-} else {
-  
-mongoose.connect(databaseUri);
-
-}
-
-var db = mongoose.connection;
-
-db.on("error", function(err){
-console.log("Mongoose Error: ", err);
-
+// Connect mongoose to my database
+mongoose.connect(dbConnect, function(error) {
+ // Log any errors connecting with mongoose
+ if (error) {
+   console.log(error);
+ }
+ // Or log a success message
+ else {
+   console.log("mongoose connection is successful");
+ }
 });
 
-db.once("open", function() {
-console.log("Mongoose connection successful.");
+// if(process.env.MONGODB_URI) {
+//     mongoose.connect(process.env.MONGODB_URI)
+// } else {
+//     mongoose.connect("mongodb://localhost/scraperHW");
+// }
 
-})
+// var db = mongoose.connection;
+// db.on('error',function(err){
+//     console.log('Mongoose Error',err);
+// });
+// db.once('open', function(){
+//     console.log("Mongoose connection is successful");
+// });
+
+// mongoose.Promise = Promise;
+// var dbConnect = process.env.MONGODB_URI || "mongodb://localhost/scraperHW";
+// if(process.env.MONGODB_URI) {
+//     mongoose.connect(process.env.MONGODB_URI)
+// } else {
+//     mongoose.connect(dbConnect);
+// }
+// var db = mongoose.connection;
+// db.on('error',function(err){
+//     console.log('Mongoose Error',err);
+// });
+// db.once('open', function(){
+//     console.log("Mongoose connection is successful");
+// });
+
+// var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+
+// mongoose.connect(MONGODB_URI);
+// var databaseUri = "mongodb://localhost/scraperHW";
+  
+
+// if(process.env.MONGODB_URI){
+
+//   mongoose.connect(process.env.MONGODB_URI);
+
+// } else {
+  
+// mongoose.connect(databaseUri);
+
+// }
+
+// var db = mongoose.connection;
+
+// db.on("error", function(err){
+// console.log("Mongoose Error: ", err);
+
+// });
+
+// db.once("open", function() {
+// console.log("Mongoose connection successful.");
+
+// })
 
 // Connect to the Mongo DB
 // mongoose.connect("mongodb://localhost/scraperHW", {
