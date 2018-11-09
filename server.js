@@ -31,28 +31,35 @@ app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+var databaseUri = "mongodb://localhost/scraperHW";
+  
 
-mongoose.connect(MONGODB_URI);
-// connect to database
-// mongoose.Promise = Promise;
-// var dbConnect = process.env.MONGODB_URI || "mongodb://localhost/scraperHW";
-// if(process.env.MONGODB_URI) {
-//     mongoose.connect(process.env.MONGODB_URI)
-// } else {
-//     mongoose.connect(dbConnect);
-// }
-// var db = mongoose.connection;
-// db.on('error',function(err){
-//     console.log('Mongoose Error',err);
-// });
-// db.once('open', function(){
-//     console.log("Mongoose connection is successful");
-// });
-// Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/scraperHW", {
-  useNewUrlParser: true
+if(process.env.MONGODB_URI){
+
+  mongoose.connect(process.env.MONGODB_URI);
+
+} else {
+  
+mongoose.connect(databaseUri);
+
+}
+
+var db = mongoose.connection;
+
+db.on("error", function(err){
+console.log("Mongoose Error: ", err);
+
 });
+
+db.once("open", function() {
+console.log("Mongoose connection successful.");
+
+})
+
+// Connect to the Mongo DB
+// mongoose.connect("mongodb://localhost/scraperHW", {
+//   useNewUrlParser: true
+// });
 
 // Routes
 app.get("/", function(req, res) {
