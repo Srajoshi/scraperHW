@@ -30,7 +30,9 @@ app.use(express.urlencoded({
 app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
+mongoose.connect(MONGODB_URI);
 var databaseUri = "mongodb://localhost/scraperHW";
   
 
